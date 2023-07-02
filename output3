@@ -1,0 +1,61 @@
+1
+2
+3
+4
+5
+6
+7
+8
+
+4 (-1 B)
+2 (4 L) (0 B) 6 (4 R) (-1 B)
+1 (2 L) (0 B) 3 (2 R) (0 B) 5 (6 L) (0 B) 7 (6 R) (-1 B)
+8 (7 R) (0 B)
+if(ptr->left && ptr->right && ptr->level <= ptr->right->level + ptr->left->level&&
+           (ptr->balance_factor == ptr->left->balance_factor || ptr->balance_factor == ptr->right->balance_factor)) printf("(%d B)",ptr->balance_factor);
+        
+struct marks* insert_AVL(struct marks* start, int mark)
+{
+   
+    if (mark > start->mark)
+    {
+        // insert the new node to the right
+        start->right = insert_AVL(start->right, mark);
+ 
+        // tree is unbalanced, then rotate it
+        if (getBalance(start) == -2)
+        {
+            if (mark > start->right->mark)
+            {
+                start = leftRotate(start);
+            }
+            else
+            {
+                start->right = rightRotate(start->right);
+                start = leftRotate(start);
+            }
+        }
+    }
+    else
+    {
+        // insert the new node to the left
+        start->left = insert_AVL(start->left, mark);
+ 
+        // tree is unbalanced, then rotate it
+        if (getBalance(start) == 2)
+        {
+            if (mark < start->left->mark)
+            {
+                start = rightRotate(start);
+            }
+            else
+            {
+                start->left = leftRotate(start->left);
+                start = rightRotate(start);
+            }
+        }
+    }
+    // update the heights of the nodes
+    total_levels(start);
+    return start;
+}

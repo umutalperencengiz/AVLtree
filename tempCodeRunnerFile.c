@@ -1,0 +1,1 @@
+printf("(%d B) ",start->balance_factor);
